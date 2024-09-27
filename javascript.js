@@ -1,4 +1,4 @@
-const apiKey = '5901154b5368441c9ab055caf85049bd'; // Replace with your actual API key
+const apiKey ='5901154b5368441c9ab055caf85049bd';
 
 // Fetch currency list from Open Exchange Rates API
 fetch(`https://openexchangerates.org/api/currencies.json?app_id=${apiKey}`)
