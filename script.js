@@ -1,4 +1,4 @@
-// 1. Get all necessary elements
+
 const convertButton = document.getElementById('convertButton');
 const resultDiv = document.getElementById('result');
 const rateDiv = document.getElementById('exchangeRate');
@@ -6,65 +6,101 @@ const amountInput = document.getElementById('amount');
 const fromSelect = document.getElementById('fromCurrency');
 const toSelect = document.getElementById('toCurrency');
 
-// 2. Create function to format numbers
+// Add timestamp display
+const timestampDiv = document.createElement('div');
+timestampDiv.id = 'timestamp';
+rateDiv.parentNode.appendChild(timestampDiv);
+
 function formatNumber(number) {
     return new Intl.NumberFormat('en-US', { 
         minimumFractionDigits: 2, 
-        maximumFractionDigits: 2 
+        maximumFractionDigits: 2,
+        style: 'currency',
+        currencyDisplay: 'symbol'
     }).format(number);
 }
 
-// 3. Create the conversion function
 async function performConversion() {
-    // Show loading state
-    resultDiv.textContent = 'Converting...';
-    rateDiv.textContent = '';
-
-    // Get input values
+    resultDiv.textContent = 'Fetching latest rates...';
     const amount = amountInput.value;
     const fromCurrency = fromSelect.value;
     const toCurrency = toSelect.value;
 
-    // Validate input
-    if (!amount || amount <= 0) {
-        resultDiv.textContent = 'Please enter a valid amount';
-        return;
-    }
-
-    // API configuration
+    // Using HTTPS instead of HTTP for secure connection
     const API_KEY = '034389a9a81af9e9ce1137066ad9c439';
-    const url = `http://data.fixer.io/api/latest?access_key=${API_KEY}&base=EUR&symbols=${fromCurrency},${toCurrency}`;
+    const url = `https://data.fixer.io/api/latest?access_key=${API_KEY}&base=EUR&symbols=${fromCurrency},${toCurrency}`;
 
     try {
-        // Fetch data
         const response = await fetch(url);
         const data = await response.json();
-        console.log('API Response:', data); // Debug log
+        console.log('API Response:', data); // Debug log to see API response
 
         if (data.success) {
-            // Calculate conversion
             const fromRate = data.rates[fromCurrency];
             const toRate = data.rates[toCurrency];
             const convertedAmount = amount * (toRate / fromRate);
+            const rate = toRate / fromRate;
 
-            // Display results
-            resultDiv.textContent = `${formatNumber(amount)} ${fromCurrency} = ${formatNumber(convertedAmount)} ${toCurrency}`;
-            rateDiv.textContent = `Exchange Rate: 1 ${fromCurrency} = ${(toRate / fromRate).toFixed(6)} ${toCurrency}`; 
+            // Enhanced result display
+            resultDiv.innerHTML = `
+                <div class="conversion-result">
+                    <span class="amount">${formatNumber(amount)} ${fromCurrency}</span>
+                    <span class="equals">equals</span>
+                    <span class="converted">${formatNumber(convertedAmount)} ${toCurrency}</span>
+                </div>
+            `;
+
+            // Detailed rate information
+            rateDiv.innerHTML = `
+                <div class="rate-details">
+                    <div class="current-rate">1 ${fromCurrency} = ${rate.toFixed(6)} ${toCurrency}</div>
+                    <div class="inverse-rate">1 ${toCurrency} = ${(1/rate).toFixed(6)} ${fromCurrency}</div>
+                </div>
+            `;
+
+            const now = new Date();
+            timestampDiv.textContent = `Last updated: ${now.toLocaleString()}`;
         } else {
-            resultDiv.textContent = `Error: ${data.error.type}`;
-            console.log('API Error:', data.error); // Debug log
+            resultDiv.textContent = `API Error: ${data.error.type}`;
+            console.log('API Error Details:', data.error);
         }
     } catch (error) {
-        resultDiv.textContent = 'Connection error. Please try again.';
-        console.error('Fetch Error:', error); // Debug log
+        console.error('Fetch Error:', error);
+        resultDiv.textContent = 'Connection error. Please check your internet connection.';
     }
-}
-
-// 4. Add event listeners
+}// Event listeners
 convertButton.addEventListener('click', performConversion);
 amountInput.addEventListener('keypress', (e) => {
     if (e.key === 'Enter') performConversion();
 });
 
-// 5. Log initial setup completion
-console.log('Currency converter initialized');
+// Add these security middleware to your Express server
+const rateLimit = require('express-rate-limit');
+const helmet = require('helmet');
+
+// Basic security headers
+app.use(helmet());
+
+// Rate limiting
+const limiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 100 // limit each IP to 100 requests per windowMs
+});
+app.use('/api/', limiter);
+
+// Input validation middleware
+function validateCurrencyRequest(req, res, next) {
+    const { fromCurrency, toCurrency, amount } = req.query;
+    
+    if (!fromCurrency || !toCurrency || !amount) {
+        return res.status(400).json({ error: 'Missing required parameters' });
+    }
+    
+    if (isNaN(amount) || amount <= 0) {
+        return res.status(400).json({ error: 'Invalid amount' });
+    }
+    
+    // Add currency code validation if needed
+    next();
+}
+

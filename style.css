@@ -6,7 +6,7 @@
 
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(135deg, #00416A, #E4E5E6);
+    background: linear-gradient(135deg, #000000, #2c2c2c);
     min-height: 100vh;
     display: flex;
     justify-content: center;
@@ -18,14 +18,14 @@ body {
     background: white;
     padding: 2rem;
     border-radius: 10px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
     width: 100%;
     max-width: 500px;
 }
 
 h1 {
     text-align: center;
-    color: #00416A;
+    color: #000000;
     margin-bottom: 2rem;
 }
 
@@ -43,12 +43,12 @@ h1 {
 
 label {
     font-weight: 600;
-    color: #333;
+    color: #000000;
 }
 
 input, select {
     padding: 0.8rem;
-    border: 2px solid #e0e0e0;
+    border: 2px solid #000000;
     border-radius: 5px;
     font-size: 1rem;
     transition: border-color 0.3s ease;
@@ -56,11 +56,11 @@ input, select {
 
 input:focus, select:focus {
     outline: none;
-    border-color: #00416A;
+    border-color: #404040;
 }
 
 button {
-    background: #00416A;
+    background: #000000;
     color: white;
     border: none;
     padding: 1rem;
@@ -71,27 +71,28 @@ button {
 }
 
 button:hover {
-    background: #005688;
+    background: #404040;
 }
 
 .result-container {
     text-align: center;
     padding: 1rem;
     margin-top: 1rem;
+    background: #f5f5f5;
+    border-radius: 5px;
 }
 
 #result {
     font-size: 1.5rem;
     font-weight: bold;
-    color: #00416A;
+    color: #000000;
 }
 
 #exchangeRate {
     margin-top: 0.5rem;
-    color: #666;
+    color: #404040;
     font-size: 0.9rem;
 }
-
 /* Add this to your existing CSS */
 .swap-button {
     background: #00416A;
@@ -122,3 +123,28 @@ button:hover {
     animation: loading 1.5s infinite;
 }
 
+const styles = `
+    .conversion-result {
+        font-size: 1.5em;
+        margin: 20px 0;
+    }
+    .rate-details {
+        background: #f8f9fa;
+        padding: 10px;
+        border-radius: 5px;
+        margin: 10px 0;
+    }
+    #timestamp {
+        color: #666;
+        font-size: 0.9em;
+        margin-top: 10px;
+    }
+    .inverse-rate {
+        color: #666;
+        margin-top: 5px;
+    }
+`;
+
+const styleSheet = document.createElement("style");
+styleSheet.textContent = styles;
+document.head.appendChild(styleSheet);
