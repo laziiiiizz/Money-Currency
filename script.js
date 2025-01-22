@@ -66,7 +66,7 @@ async function performConversion() {
         }
     } catch (error) {
         console.error('Fetch Error:', error);
-        resultDiv.textContent = 'Connection error. Please check your internet connection.';
+        resultDiv.textContent = 'Check your fucking service!.';
     }
 }// Event listeners
 convertButton.addEventListener('click', performConversion);
