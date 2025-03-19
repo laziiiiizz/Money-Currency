@@ -5,82 +5,104 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Currency Converter</title>
     <link rel="stylesheet" href="style.css">
-    <script src="script.js" defer></script>
+    <link rel="stylesheet" href="style2.css">
 </head>
 <body>
-    <div class="container">
-        <h1>Currency Converter</h1>
-        <div class="converter-box">
-            <div class="input-group">
-                <label for="amount">Amount:</label>
-                <input type="number" id="amount" min="0" step="0.01" placeholder="Enter amount">
-            </div>
-            
-            <div class="input-group">
-                <label for="fromCurrency">From:</label>
-                <select id="fromCurrency">
-                    <option value="USD">USD - United States Dollar</option>
-                    <option value="UZS">UZS - Uzbekistan Som</option>
-                    <option value="AED">AED - United Arab Emirates Dirham</option>
-                    <option value="AFN">AFN - Afghan Afghani</option>
-                    <option value="ALL">ALL - Albanian Lek</option>
-                    <option value="AMD">AMD - Armenian Dram</option>
-                    <option value="ANG">ANG - Netherlands Antillean Guilder</option>
-                    <option value="AOA">AOA - Angolan Kwanza</option>
-                    <option value="ARS">ARS - Argentine Peso</option>
-                    <option value="AUD">AUD - Australian Dollar</option>
-                    <option value="AWG">AWG - Aruban Florin</option>
-                    <option value="AZN">AZN - Azerbaijani Manat</option>
-                    <option value="BAM">BAM - Bosnia-Herzegovina Convertible Mark</option>
-                    <option value="BBD">BBD - Barbadian Dollar</option>
-                    <option value="BDT">BDT - Bangladeshi Taka</option>
-                    <option value="BGN">BGN - Bulgarian Lev</option>
-                    <option value="BHD">BHD - Bahraini Dinar</option>
-                    <option value="BIF">BIF - Burundian Franc</option>
-                    <option value="BMD">BMD - Bermudian Dollar</option>
-                    <option value="BND">BND - Brunei Dollar</option>
-                    <option value="BOB">BOB - Bolivian Boliviano</option>
-                </select>
-            </div>
-            
-            <div class="input-group">
-                <label for="toCurrency">To:</label>
-                <select id="toCurrency">
-                    <option value="USD">USD - United States Dollar</option>
-                    <option value="UZS">UZS - Uzbekistan Som</option>
-                    <option value="AED">AED - United Arab Emirates Dirham</option>
-                    <option value="AFN">AFN - Afghan Afghani</option>
-                    <option value="ALL">ALL - Albanian Lek</option>
-                    <option value="AMD">AMD - Armenian Dram</option>
-                    <option value="ANG">ANG - Netherlands Antillean Guilder</option>
-                    <option value="AOA">AOA - Angolan Kwanza</option>
-                    <option value="ARS">ARS - Argentine Peso</option>
-                    <option value="AUD">AUD - Australian Dollar</option>
-                    <option value="AWG">AWG - Aruban Florin</option>
-                    <option value="AZN">AZN - Azerbaijani Manat</option>
-                    <option value="BAM">BAM - Bosnia-Herzegovina Convertible Mark</option>
-                    <option value="BBD">BBD - Barbadian Dollar</option>
-                    <option value="BDT">BDT - Bangladeshi Taka</option>
-                    <option value="BGN">BGN - Bulgarian Lev</option>
-                    <option value="BHD">BHD - Bahraini Dinar</option>
-                    <option value="BIF">BIF - Burundian Franc</option>
-                    <option value="BMD">BMD - Bermudian Dollar</option>
-                    <option value="BND">BND - Brunei Dollar</option>
-                    <option value="BOB">BOB - Bolivian Boliviano</option>
-                </select>
-            </div>
-
-            <button id="convertButton">Convert</button>
-            <button id="swapButton">↑↓</button>
-            <div class="result-container">
-                <div id="result"></div>
-                <div id="exchangeRate"></div>       
-            </div>
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="wrapper">
+        <div class="box-wrap">
+            <div class="box one"></div>
+            <div class="box two"></div>
+            <div class="box three"></div>
+            <div class="box four"></div>
+            <div class="box five"></div>
+            <div class="box six"></div>
         </div>
     </div>
-    <div class="result-container">
-        <div id="result"></div>
-        <div id="exchangeRate"></div>
+
+    <!-- Main Content -->
+    <div id="main-content" style="display: none;">
+        <div class="container">
+            <h1>Currency Converter</h1>
+            <div class="converter-box">
+                <div class="input-group">
+                    <label for="amount">Amount:</label>
+                    <input type="number" id="amount" min="0" step="0.01" placeholder="Enter amount">
+                </div>
+                <div class="input-group">
+                    <label for="fromCurrency">From:</label>
+                    <select id="fromCurrency">
+                        <option value="USD">USD - United States Dollar</option>
+                        <option value="EUR">EUR - Euro</option>
+                        <option value="JPY">JPY - Japanese Yen</option>
+                        <option value="GBP">GBP - British Pound Sterling</option>
+                        <option value="AUD">AUD - Australian Dollar</option>
+                        <option value="CAD">CAD - Canadian Dollar</option>
+                        <option value="CHF">CHF - Swiss Franc</option>
+                        <option value="CNY">CNY - Chinese Yuan</option>
+                        <option value="UZS">UZS - Uzbekistan Som</option>
+                        <option value="KZT">KZT - Kazakhstani Tenge</option>
+                        <option value="KGS">KGS - Kyrgystani Som</option>
+                        <option value="TJS">TJS - Tajikistani Somoni</option>
+                        <option value="TMT">TMT - Turkmenistan Manat</option>
+                        <option value="AED">AED - United Arab Emirates Dirham</option>
+                        <option value="SAR">SAR - Saudi Riyal</option>
+                        <option value="QAR">QAR - Qatari Riyal</option>
+                        <option value="OMR">OMR - Omani Rial</option>
+                        <option value="BHD">BHD - Bahraini Dinar</option>
+                        <option value="KWD">KWD - Kuwaiti Dinar</option>
+                        <option value="IRR">IRR - Iranian Rial</option>
+                        <option value="IQD">IQD - Iraqi Dinar</option>
+                        <option value="TRY">TRY - Turkish Lira</option>
+                        <option value="EGP">EGP - Egyptian Pound</option>
+                        <option value="INR">INR - Indian Rupee</option>
+                        <option value="PKR">PKR - Pakistani Rupee</option>
+                        <option value="BDT">BDT - Bangladeshi Taka</option>
+                        <option value="RUB">RUB - Russian Ruble</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label for="toCurrency">To:</label>
+                    <select id="toCurrency">
+                        <option value="USD">USD - United States Dollar</option>
+                        <option value="EUR">EUR - Euro</option>
+                        <option value="JPY">JPY - Japanese Yen</option>
+                        <option value="GBP">GBP - British Pound Sterling</option>
+                        <option value="AUD">AUD - Australian Dollar</option>
+                        <option value="CAD">CAD - Canadian Dollar</option>
+                        <option value="CHF">CHF - Swiss Franc</option>
+                        <option value="CNY">CNY - Chinese Yuan</option>
+                        <option value="UZS">UZS - Uzbekistan Som</option>
+                        <option value="KZT">KZT - Kazakhstani Tenge</option>
+                        <option value="KGS">KGS - Kyrgystani Som</option>
+                        <option value="TJS">TJS - Tajikistani Somoni</option>
+                        <option value="TMT">TMT - Turkmenistan Manat</option>
+                        <option value="AED">AED - United Arab Emirates Dirham</option>
+                        <option value="SAR">SAR - Saudi Riyal</option>
+                        <option value="QAR">QAR - Qatari Riyal</option>
+                        <option value="OMR">OMR - Omani Rial</option>
+                        <option value="BHD">BHD - Bahraini Dinar</option>
+                        <option value="KWD">KWD - Kuwaiti Dinar</option>
+                        <option value="IRR">IRR - Iranian Rial</option>
+                        <option value="IQD">IQD - Iraqi Dinar</option>
+                        <option value="TRY">TRY - Turkish Lira</option>
+                        <option value="EGP">EGP - Egyptian Pound</option>
+                        <option value="INR">INR - Indian Rupee</option>
+                        <option value="PKR">PKR - Pakistani Rupee</option>
+                        <option value="BDT">BDT - Bangladeshi Taka</option>
+                        <option value="RUB">RUB - Russian Ruble</option>
+                    </select>
+                </div>
+                <button id="convertButton">Convert</button>
+                <div id="result"></div>
+                <div id="exchangeRate"></div>
+            </div>
+            <div class="creator-note">Made by Laziz</div>
+        </div>
     </div>
+
+    <script src="script.js"></script>
 </body>
 </html>
+
+

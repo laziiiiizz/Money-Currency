@@ -1,4 +1,4 @@
-// Add this near the top of your file
+// Constants and DOM elements
 const API_KEY = '034389a9a81af9e9ce1137066ad9c439';
 const convertButton = document.getElementById('convertButton');
 const resultDiv = document.getElementById('result');
@@ -6,6 +6,9 @@ const rateDiv = document.getElementById('exchangeRate');
 const amountInput = document.getElementById('amount');
 const fromSelect = document.getElementById('fromCurrency');
 const toSelect = document.getElementById('toCurrency');
+const loadingScreen = document.getElementById('loading-screen');
+const mainContent = document.getElementById('main-content');
+
 
 // Add timestamp display
 const timestampDiv = document.createElement('div');
@@ -58,21 +61,23 @@ async function performConversion() {
             const convertedAmount = amount * (toRate / fromRate);
             const rate = toRate / fromRate;
 
+
+
             resultDiv.innerHTML = `
                 <div class="conversion-result">
-                    <span class="amount">${formatNumber(amount, fromCurrency)} ${fromCurrency}</span>
+                    <span class="amount">${formatNumber(amount, fromCurrency)}</span>
                     <span class="equals">equals</span>
-                    <span class="converted">${formatNumber(convertedAmount, toCurrency)} ${toCurrency}</span>
+                    <span class="converted">${formatNumber(convertedAmount, toCurrency)}</span>
                 </div>
             `;
-
 
             rateDiv.innerHTML = `
                 <div class="rate-details">
-                    <div class="current-rate">1 ${fromCurrency} = ${rate.toFixed(6)} ${toCurrency}</div>
-                    <div class="inverse-rate">1 ${toCurrency} = ${(1/rate).toFixed(6)} ${fromCurrency}</div>
+                    <div>1 ${fromCurrency} = ${rate.toFixed(6)} ${toCurrency}</div>
+                    <div>1 ${toCurrency} = ${(1/rate).toFixed(6)} ${fromCurrency}</div>
                 </div>
             `;
+
 
             const now = new Date();
             timestampDiv.textContent = `Last updated: ${now.toLocaleString()}`;
@@ -96,36 +101,23 @@ amountInput.addEventListener('keypress', (e) => {
     if (e.key === 'Enter') performConversion();
 });
 
-async function testAPI() {
-    const url = `http://data.fixer.io/api/latest?access_key=${API_KEY}`;
-
+async function initializePage() {
     try {
-        console.log('Testing API with URL:', url);
-        const response = await fetchWithTimeout(url);
-        console.log('Test response status:', response.status);
-        console.log('Test response headers:', Object.fromEntries(response.headers));
-        const data = await response.json();
-        console.log('API Test Response:', JSON.stringify(data, null, 2));
-        if (data.success) {
-            console.log('API is working correctly');
-            console.log('Base currency:', data.base);
-            console.log('Available symbols:', Object.keys(data.rates).join(', '));
-        } else {
-            console.log('API Error:', data.error);
-            console.log('Error code:', data.error.code);
-            console.log('Error type:', data.error.type);
-            console.log('Error info:', data.error.info);
-        }
+        // Simulate loading time (you can adjust this as needed)
+        await new Promise(resolve => setTimeout(resolve, 3000));
+
+        // Hide loading screen and show main content
+        document.getElementById('loading-screen').style.display = 'none';
+        document.getElementById('main-content').style.display = 'block';
+
+        // Any other initialization code you need
     } catch (error) {
-        console.error('Fetch Error:', error);
-        if (error.name === 'AbortError') {
-            console.log('API test request timed out');
-        } else {
-            console.log('API test error:', error.message);
-        }
+        console.error('Initialization error:', error);
+        // Handle initialization error (e.g., show an error message to the user)
     }
 }
 
-// Call the test function when the page loads
-window.addEventListener('load', testAPI);
+// Make sure this event listener is in your script
+
+window.addEventListener('load', initializePage);
 
