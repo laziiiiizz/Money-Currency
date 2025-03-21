@@ -46,7 +46,7 @@ async function performConversion() {
         resultDiv.textContent = 'Please enter a valid amount.';
         return;
     }
-    const url = `http://data.fixer.io/api/latest?access_key=${API_KEY}&base=EUR&symbols=${fromCurrency},${toCurrency}`;
+    const url = `https://data.fixer.io/api/latest?access_key=${API_KEY}&base=EUR&symbols=${fromCurrency},${toCurrency}`;
 
     try {
         console.log('Fetching from URL:', url);
@@ -60,8 +60,6 @@ async function performConversion() {
             const toRate = data.rates[toCurrency];
             const convertedAmount = amount * (toRate / fromRate);
             const rate = toRate / fromRate;
-
-
 
             resultDiv.innerHTML = `
                 <div class="conversion-result">
@@ -78,7 +76,6 @@ async function performConversion() {
                 </div>
             `;
 
-
             const now = new Date();
             timestampDiv.textContent = `Last updated: ${now.toLocaleString()}`;
         } else {
@@ -90,10 +87,11 @@ async function performConversion() {
         if (error.name === 'AbortError') {
             resultDiv.textContent = 'Request timed out. Please try again later.';
         } else {
-            resultDiv.textContent = 'An error occurred while fetching data. Please try again later.';
+            resultDiv.textContent = `An error occurred while fetching data: ${error.message}. Please try again later.`;
         }
     }
 }
+
 
 // Event listeners
 convertButton.addEventListener('click', performConversion);
@@ -105,17 +103,15 @@ async function initializePage() {
     try {
         // Simulate loading time (you can adjust this as needed)
         await new Promise(resolve => setTimeout(resolve, 3000));
-
-        // Hide loading screen and show main content
-        document.getElementById('loading-screen').style.display = 'none';
-        document.getElementById('main-content').style.display = 'block';
-
-        // Any other initialization code you need
     } catch (error) {
         console.error('Initialization error:', error);
-        // Handle initialization error (e.g., show an error message to the user)
+    } finally {
+        // Always hide loading screen and show main content
+        document.getElementById('loading-screen').style.display = 'none';
+        document.getElementById('main-content').style.display = 'block';
     }
 }
+
 
 // Make sure this event listener is in your script
 
