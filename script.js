@@ -123,8 +123,8 @@ amountInput.addEventListener('keypress', (e) => {
 
 async function initializePage() {
     try {
-        // Simulate loading time (you can adjust this as needed)
-        await new Promise(resolve => setTimeout(resolve, 3000));
+        // Set simulated loading time to 2000ms (2 seconds)
+        await new Promise(resolve => setTimeout(resolve, 2000));
     } catch (error) {
         console.error('Initialization error:', error);
     } finally {
@@ -133,6 +133,8 @@ async function initializePage() {
         document.getElementById('main-content').style.display = 'block';
     }
 }
+
+
 
 
 // Make sure this event listener is in your script
