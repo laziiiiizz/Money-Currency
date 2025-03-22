@@ -4,6 +4,28 @@ const convertButton = document.getElementById('convertButton');
 const resultDiv = document.getElementById('result');
 const rateDiv = document.getElementById('exchangeRate');
 const amountInput = document.getElementById('amount');
+
+function validateAmount(input) {
+    // Remove any non-numeric characters except decimal point
+    input.value = input.value.replace(/[^0-9.]/g, '');
+
+    // Ensure only one decimal point
+    let parts = input.value.split('.');
+    if (parts.length > 2) {
+        parts = [parts[0], parts.slice(1).join('')];
+        input.value = parts.join('.');
+    }
+
+    // Limit to 2 decimal places
+    if (parts[1] && parts[1].length > 2) {
+        input.value = parseFloat(input.value).toFixed(2);
+    }
+
+    // Prevent negative values
+    if (parseFloat(input.value) < 0) {
+        input.value = '0';
+    }
+}
 const fromSelect = document.getElementById('fromCurrency');
 const toSelect = document.getElementById('toCurrency');
 const loadingScreen = document.getElementById('loading-screen');
@@ -116,4 +138,9 @@ async function initializePage() {
 // Make sure this event listener is in your script
 
 window.addEventListener('load', initializePage);
+
+// Add this to your existing code
+document.getElementById('amount').addEventListener('input', function() {
+    validateAmount(this);
+});
 
